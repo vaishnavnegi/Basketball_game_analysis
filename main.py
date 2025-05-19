@@ -1,6 +1,9 @@
 from ultralytics import YOLO
-model = YOLO("yolov8x.pt")  # Load a pretrained model (or specify a custom path)
-results = model.predict("input_videos/video_1.mp4", save=True)  # Predict on webcam (or specify a custom video path)
+# model = YOLO("yolov8x.pt")  # Load a pretrained model (or specify a custom path)
+# model = YOLO("models/Player_Detector.pt")  # Load a pretrained model (or specify a custom path)
+model = YOLO("models/Ball_Detector.pt")  # Load a pretrained model (or specify a custom path)
+# results = model.predict("input_videos/video_1.mp4", save=True)  # Predict on webcam (or specify a custom video path)
+results = model.track("input_videos/video_1.mp4", save=True)  
 print(results)  # Print results to console
 print("=======================")
 for box in results[0].boxes:
