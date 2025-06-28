@@ -1,8 +1,9 @@
 from utils import read_video, save_video
 from trackers import PlayerTracker, BallTracker
-from drawers import PlayerTracksDrawer, BallTracksDrawer
+from drawers import PlayerTracksDrawer, BallTracksDrawer, TeamBallControlDrawer
 from team_assignment import TeamAssigner
 from ball_acquisition import BallAcquisitionDetector
+
 
 def main():
 
@@ -14,7 +15,7 @@ def main():
     
     # Initialize Ball Tracker
     ball_tracker = BallTracker("models/Ball_Detector.pt")
-
+    
     # Run Player Tracker
     player_tracks = player_tracker.get_object_tracks(video_frames,
                                                      read_from_stub=True,
@@ -49,12 +50,16 @@ def main():
     #Initialize drawers
     player_tracks_drawer = PlayerTracksDrawer()
     ball_tracks_drawer = BallTracksDrawer()
-    
+    team_ball_control_drawer = TeamBallControlDrawer()
+
     # Drawing Player Tracks
     output_video_frames = player_tracks_drawer.draw(video_frames, player_tracks, player_assignment, ball_acquisition)
     
     # Drawing Ball Tracks
     output_video_frames = ball_tracks_drawer.draw(output_video_frames, ball_tracks)
+    
+    # Drawing Team Ball Control
+    output_video_frames = team_ball_control_drawer.draw(output_video_frames, player_assignment, ball_acquisition)
 
     # Save video
     save_video(output_video_frames, "output_videos/video_1.avi")
